@@ -1,0 +1,84 @@
+groups:
+  - name: market_index_rules
+    interval: 30s
+    rules:
+      #기본 지표 : 5분 이동평균
+      #USD
+      - record: market_USD_KRW:ma5m
+        expr: avg_over_time(market_USD_KRW[5m])
+      
+      #1시간 변동률
+      - record: market_USD_KRW:change_1h
+        expr: (market_USD_KRW - market_USD_KRW offset 1h) 
+              / (market_USD_KRW offset 1h) * 100
+      
+      #JPY
+      - record: market_JPY_KRW:ma5m
+        expr: avg_over_time(market_JPY_KRW[5m])
+      
+      - record: market_JPY_KRW:change_1h
+        expr: (market_JPY_KRW - market_JPY_KRW offset 1h) 
+              / (market_JPY_KRW offset 1h) * 100
+      
+      #코스피
+      - record: kospi_kospi_index:ma5m
+        expr: avg_over_time(kospi_kospi_index[5m])
+      
+      - record: kospi_kospi_index:change_1h
+        expr: (kospi_kospi_index - kospi_kospi_index offset 1h) 
+              / (kospi_kospi_index offset 1h) * 100
+
+      #다우지수
+      - record: dji_dji_index:ma5m
+        expr: avg_over_time(dji_dji_index[5m])
+      
+      - record: dji_dji_index:change_1h
+        expr: (dji_dji_index - dji_dji_index offset 1h) 
+              / (dji_dji_index offset 1h) * 100
+
+      #S&P500
+      - record: sp_sp_index:ma5m
+        expr: avg_over_time(sp_sp_index[5m])
+      
+      - record: sp_sp_index:change_1h
+        expr: (sp_sp_index - sp_sp_index offset 1h) 
+              / (sp_sp_index offset 1h) * 100
+      #나스닥
+      - record: ixic_ixic_index:ma5m
+        expr: avg_over_time(ixic_ixic_index[5m])
+      
+      - record: ixic_ixic_index:change_1h
+        expr: (ixic_ixic_index - ixic_ixic_index offset 1h) 
+              / (ixic_ixic_index offset 1h) * 100
+
+      #니케이 225
+      - record: n225_n225_index:ma5m
+        expr: avg_over_time(n225_n225_index[5m])
+      
+      - record: n225_n225_index:change_1h
+        expr: (n225_n225_index - n225_n225_index offset 1h) 
+              / (n225_n225_index offset 1h) * 100
+
+      #금
+      - record: gold_gold_price:ma5m
+        expr: avg_over_time(gold_gold_price[5m])
+      
+      - record: gold_gold_price:change_1h
+        expr: (gold_gold_price - gold_gold_price offset 1h) 
+              / (gold_gold_price offset 1h) * 100
+
+      #서부텍사스유
+      - record: wti_wti_index:ma5m
+        expr: avg_over_time(wti_wti_index[5m])
+      
+      - record: wti_wti_index:change_1h
+        expr: (wti_wti_index - wti_wti_index offset 1h) 
+              / (wti_wti_index offset 1h) * 100
+              
+      #휘발유
+      - record: gasoline_gasoline_index:ma5m
+        expr: avg_over_time(gasoline_gasoline_index[5m])
+      
+      - record: gasoline_gasoline_index:change_1h
+        expr: (gasoline_gasoline_index - gasoline_gasoline_index offset 1h) 
+              / (gasoline_gasoline_index offset 1h) * 100

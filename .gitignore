@@ -1,0 +1,40 @@
+### 1. 프로젝트 전용 (가장 중요) ###
+# DB 및 그라파나 데이터 (에러의 원인)
+db_data/
+grafana_data/
+# 로그 및 임시 파일
+logs/
+*.log
+# 환경 변수 파일 (비밀번호 포함)
+.env
+.env.production
+# 인증서 관련
+certs/
+cers/
+
+### 2. Python 관련 ###
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+### 3. Terraform 관련 ###
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfvars.json
+# Terraform crash log
+crash.log
+
+### 4. OS 및 IDE 관련 ###
+# Windows
+Thumbs.db
+desktop.ini
+# macOS
+.DS_Store
+# IDE (VS Code, PyCharm)
+.vscode/
+.idea/

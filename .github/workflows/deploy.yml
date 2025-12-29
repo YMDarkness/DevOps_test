@@ -1,0 +1,45 @@
+# CI/CD 자동 배포 설정
+
+name: Deploy to AWS EC2
+
+# 1. 실행 조건
+on:
+  push:
+    branches: [ "main" ] # main 브랜치에 push 될 때 실행
+
+# 2. 수행 작업
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Connect to EC2 and deploy
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{secrets.EC2_HOST}}
+          username: ubuntu # AMI가 우분투이므로 우분투 계정 사용
+          key: ${{secrets.EC2_SSH_KEY}}
+          script: |
+            # 폴더 이동 (없으면 클론)
+            if [ ! -d "~/DevOps_test" ]; then
+              git clone https://github.com/YMDarkness/DevOps_test.git ~/DevOps_test
+            fi
+            cd ~/DevOps_test
+            
+            # 최신 코드로 업데이트
+            git pull origin main
+
+            # .env 파일 주입
+            echo "${{secrets.ENV_FILE}}" > .env
+
+            # 도커 컴포즈로 서비스 재시작 (prod)
+            docker compose -f docker-compose.prod.yml down
+            docker compose -f docker-compose.prod.yml up -d --build
+            echo "배포 완료! 접속 포트: 805(HTTP), 447(HTTPS)"
+            docker ps # 실행 중인 도커 컨테이너 확인
+
+# Secrets 설정
+# EC2_HOST, EC2_USER, EC2_SSH_KEY를 깃허브 > 레포지터리 > 세팅 > Secrets에 등록

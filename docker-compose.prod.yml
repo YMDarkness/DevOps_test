@@ -1,0 +1,57 @@
+# AWS 배포용
+
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: market_index_devops
+    env_file: .env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    container_name: mysql_db
+    env_file: .env
+    volumes:
+      - ./database:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer # 익명 사용자는 보기 권한만 가능
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - ./grafana_data:/var/lib/grafana 
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./cers:/etc/letsencrypt/live/monitor.myserver.com
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - grafana
