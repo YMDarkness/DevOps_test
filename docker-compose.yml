@@ -50,6 +50,7 @@ services:
   grafana:
     container_name: devops_grafana
     image: grafana/grafana
+    user: "0" # root 권한으로 실행
     restart: always
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
