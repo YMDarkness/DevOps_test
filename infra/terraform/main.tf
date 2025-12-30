@@ -66,24 +66,6 @@ data "aws_ami" "ubuntu" {
 
 # EC2 인스턴스 생성
 
-resource "aws_instance" "market_server" {
-  ami = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
-  key_name = var.key_name
-  vpc_security_group_ids = [aws_security_group.market_index_5g.id]
-
-  tags = {
-    Name = "${var.project_name}-ec2"
-  }
-
-  user_data = <<-EOF
-              #!/bin/bash
-              cd /home/ubuntu
-              git clone https://github.com/YMDarkness/DevOps_test.git
-              chown -R ubuntu:ubuntu DevOps_test
-              EOF
-}
-
 # Elastic IP 할당 및 연결
 
 resource "aws_eip" "market_eip" {
