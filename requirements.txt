@@ -3,6 +3,7 @@ flask==2.3.3
 gunicorn==21.2.0 #프로덕션용 WSGI 서버
 prometheus-client==0.20.0
 python-dotenv==1.0.1
+boto==2.49.0
 
 # --- Data & Analysis ---
 requests==2.31.0
