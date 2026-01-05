@@ -1,16 +1,16 @@
 FROM python:3.10-slim
+WORKDIR /app
 
-# 작업 디렉토리 설정
-WORKDIR /app/app
-
-# 현재 폴더의 모든 파일을 컨테이너의 /app으로 복사
+# 모든 파일 복사
 COPY . .
 
-# 의존성 파일 설치 (이 단계가 누락되었거나 에러가 났을 수 있습니다)
+# 의존성 설치
 RUN pip install --no-cache-dir -r requirements.txt
 
-# PYTHONPATH 설정: /app 폴더를 추가하여 app/ 폴더 내의 모듈을 찾을 수 있게 함
-ENV PYTHONPATH="/app"
+# [중요] 모든 가능성 있는 경로를 PYTHONPATH에 추가
+# /app 폴더와 /app/app 폴더를 모두 탐색 범위에 넣습니다.
+ENV PYTHONPATH="/app:/app/app"
 
-# 실행 명령 (파일 구조가 /app/app/market_index_monitoring.py 인 경우)
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app.market_index_monitoring:app"]
+# [수정] 'app.'을 제거하고 파일명:변수명으로 호출
+# 파이썬이 PYTHONPATH에서 market_index_monitoring.py를 자동으로 찾아냅니다.
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "market_index_monitoring:app"]
