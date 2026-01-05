@@ -67,6 +67,7 @@ services:
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana_data:/var/lib/grafana
       # json 파일 위치
     depends_on:
       - prometheus
