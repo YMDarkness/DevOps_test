@@ -5,6 +5,9 @@ resource "aws_lambda_function" "ec2_scheduler" {
   role = aws_iam_role.lambda_exec.arn
   handler = "scheduler.lambda_handler"
   runtime = "python3.10"
+
+  timeout = 60
+  source_code_hash = filebase64sha256("lambda_function_payload.zip")
 }
 
 # 실행 규칙 1
