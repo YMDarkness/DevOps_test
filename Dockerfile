@@ -6,6 +6,7 @@ COPY . .
 
 # 의존성 설치
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install prometheus_client
 
 # [중요] 모든 가능성 있는 경로를 PYTHONPATH에 추가
 # /app 폴더와 /app/app 폴더를 모두 탐색 범위에 넣습니다.
