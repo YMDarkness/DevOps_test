@@ -52,16 +52,17 @@ def metrics():
         SpCollector(), WTICollector(), GasolineCollector()
     ]
 
-    try:
-        for c in collectors:
+    # 각 수집기별 개별 예외 처리 (하나 실패 시에도 다른 수집기 계속 실행)
+    for c in collectors:
+        try:
             print(f'[DEBUG] running : {c.__class__.__name__}', flush=True)
             c.fetch()
             c.parse()
             output += c.to_prometheus_format().encode('utf-8')
-    except Exception as e:
-        import traceback
-        print('/metrics error : ', traceback.format_exc(), flush=True)
-        return Response('Internal Server Error', status=500)
+        except Exception as e:
+            import traceback
+            print(f'[ERROR] {c.__class__.__name__} failed: {traceback.format_exc()}', flush=True)
+            # 한 수집기 실패 시에도 다른 수집기는 계속 진행
 
     return Response(output, mimetype=CONTENT_TYPE_LATEST)
 
