@@ -9,7 +9,7 @@ class IXICCollector(BaseCollector):
         super().__init__('ixic')
 
     def fetch(self):
-        self.html = requests.get('https://finance.naver.com/world/sise.naver?symbol=NAS@IXIC').text
+        self.html = requests.get('https://finance.naver.com/world/sise.naver?symbol=NAS@IXIC', timeout=5).text
 
     def parse(self):
         soup = BeautifulSoup(self.html, 'html.parser')        

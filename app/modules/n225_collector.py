@@ -9,7 +9,7 @@ class N225Collector(BaseCollector):
         super().__init__('N225')
 
     def fetch(self):
-        self.html = requests.get('https://finance.naver.com/world/sise.naver?symbol=NII@NI225').text
+        self.html = requests.get('https://finance.naver.com/world/sise.naver?symbol=NII@NI225', timeout=5).text
 
     def parse(self):
         soup = BeautifulSoup(self.html, 'html.parser')

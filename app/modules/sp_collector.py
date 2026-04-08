@@ -9,7 +9,7 @@ class SpCollector(BaseCollector):
         super().__init__('sp')
 
     def fetch(self):
-        self.html = requests.get('https://finance.naver.com/world/sise.naver?symbol=SPI@SPX').text
+        self.html = requests.get('https://finance.naver.com/world/sise.naver?symbol=SPI@SPX', timeout=5).text
 
     def parse(self):
         soup = BeautifulSoup(self.html, 'html.parser')

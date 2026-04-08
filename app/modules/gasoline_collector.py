@@ -9,7 +9,7 @@ class GasolineCollector(BaseCollector):
         super().__init__('gasoline')
 
     def fetch(self):
-        self.html = requests.get('https://finance.naver.com/marketindex/').text
+        self.html = requests.get('https://finance.naver.com/marketindex/', timeout=5).text
 
     def parse(self):
         soup = BeautifulSoup(self.html, 'html.parser')

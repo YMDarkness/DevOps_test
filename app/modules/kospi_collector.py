@@ -9,7 +9,7 @@ class KospiCollector(BaseCollector):
         super().__init__('kospi')
 
     def fetch(self):
-        self.html = requests.get("https://finance.naver.com/sise/sise_index.naver?code=KOSPI").text
+        self.html = requests.get("https://finance.naver.com/sise/sise_index.naver?code=KOSPI", timeout=5).text
 
     def parse(self):
         soup = BeautifulSoup(self.html, 'html.parser')

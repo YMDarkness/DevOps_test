@@ -10,7 +10,7 @@ class MarketCollector(BaseCollector):
 
     # 수집 대상 웹페이지 요청
     def fetch(self):
-        self.html = requests.get('https://finance.naver.com/marketindex/').text
+        self.html = requests.get('https://finance.naver.com/marketindex/', timeout=5).text
 
     # HTML 파싱 및 환율 데이터 추출
     def parse(self):

@@ -9,7 +9,7 @@ class DJICollector(BaseCollector):
         super().__init__('DJI')
 
     def fetch(self):
-        self.html = requests.get('https://finance.naver.com/world/sise.naver?symbol=DJI@DJI').text
+        self.html = requests.get('https://finance.naver.com/world/sise.naver?symbol=DJI@DJI', timeout=5).text
 
     def parse(self):
         soup = BeautifulSoup(self.html, 'html.parser')
